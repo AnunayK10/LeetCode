@@ -1,0 +1,38 @@
+class Solution {
+    public int maxPalindromes(String s, int k) {
+        int n = s.length();
+        int count = 0;
+        int lastEnd = -1; // Tracks the end index of the last chosen palindrome
+        
+        for (int i = 0; i < n; i++) {
+            // 1. Check if there is a palindrome of length k ending at index i
+            if (i - k + 1 > lastEnd && isPalindrome(s, i - k + 1, i)) {
+                count++;
+                lastEnd = i;
+                continue; // Found one, move to the next ending position
+            }
+            
+            // 2. Check if there is a palindrome of length k + 1 ending at index i
+            if (i - k > lastEnd && isPalindrome(s, i - k, i)) {
+                count++;
+                lastEnd = i;
+            }
+        }
+        
+        return count;
+    }
+    
+    // Helper function to check if a substring is a palindrome
+    private boolean isPalindrome(String s, int left, int right) {
+        if (left < 0) return false; // Bounds check
+        
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
